@@ -7,23 +7,16 @@ from discord import API as DiscordAPI
 import osu
 
 
-def load_save(path: str) -> list[dict]:
+def load_save(path: str) -> dict:
     if not os.path.exists(path):
-        return []
+        return {}
     with open(path) as f:
         return json.load(f)
 
 
-def save_data(path: str, data: list[dict]):
+def save_data(path: str, data: dict):
     with open(path, "w") as f:
         json.dump(data, f, indent=2)
-
-
-def find_user(data: list[dict], discord_id: str) -> dict | None:
-    for user in data:
-        if user["discord_id"] == discord_id:
-            return user
-    return None
 
 
 def main():
@@ -34,12 +27,12 @@ def main():
         discord_id = member["user"]["id"]
         nick = member.get("nick") or member["user"]["username"]
 
-        user = find_user(data, discord_id)
+        user = data.get(discord_id)
 
         if user is None:
             try:
                 osu_id = osu.get_user_id_from_username(nick)
-                data.append({"discord_id": discord_id, "osu_id": osu_id, "match": True})
+                data[discord_id] = {"osu_id": osu_id, "match": True}
                 print(f"Linked osu! user for discord_id={discord_id} nick={nick!r}: osu_id={osu_id}")
             except ValueError:
                 pass  # No osu! user found for this nick — expected
