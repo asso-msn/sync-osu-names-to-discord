@@ -1,5 +1,7 @@
+import argparse
 import json
 import os
+import time
 import traceback
 
 from config import config
@@ -65,4 +67,18 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--loop-minutes",
+        type=float,
+        default=0,
+        help="When > 0, repeatedly run the sync every N minutes",
+    )
+    args = parser.parse_args()
+
+    if args.loop_minutes > 0:
+        while True:
+            main()
+            time.sleep(args.loop_minutes * 60)
+    else:
+        main()
