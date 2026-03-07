@@ -39,19 +39,19 @@ def main():
             except Exception:
                 print(f"Unexpected error looking up osu! user for {nick=}")
                 traceback.print_exc()
-        else:
-            if not user["match"]:
-                continue
-            try:
-                osu_username = osu.get_username_from_user_id(user["osu_id"])
-                if osu_username.lower() != nick.lower():
-                    print(
-                        f"Username mismatch for {discord_id=}:"
-                        f" {osu_username=}, {nick=} — setting match=False"
-                    )
-                    user["match"] = False
-            except Exception:
-                traceback.print_exc()
+            continue
+        if not user["match"]:
+            continue
+        try:
+            osu_username = osu.get_username_from_user_id(user["osu_id"])
+            if osu_username.lower() != nick.lower():
+                print(
+                    f"Username mismatch for {discord_id=}:"
+                    f" {osu_username=}, {nick=} — setting match=False"
+                )
+                user["match"] = False
+        except Exception:
+            traceback.print_exc()
 
     save_data(config.DB_PATH, data)
 
