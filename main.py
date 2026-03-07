@@ -76,9 +76,9 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    if args.loop_minutes > 0:
-        while True:
-            main()
-            time.sleep(args.loop_minutes * 60)
-    else:
+    while True:
         main()
+        if args.loop_minutes > 0:
+            time.sleep(args.loop_minutes * 60)
+        else:
+            break
