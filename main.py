@@ -33,11 +33,11 @@ def main():
             try:
                 osu_id = osu.get_user_id_from_username(nick)
                 data[discord_id] = {"osu_id": osu_id, "match": True}
-                print(f"Linked osu! user for discord_id={discord_id} nick={nick!r}: osu_id={osu_id}")
+                print(f"Linked osu! user for {discord_id=} {nick=}: {osu_id=}")
             except ValueError:
                 pass  # No osu! user found for this nick — expected
             except Exception:
-                print(f"Unexpected error looking up osu! user for nick={nick!r}")
+                print(f"Unexpected error looking up osu! user for {nick=}")
                 traceback.print_exc()
         else:
             if not user["match"]:
@@ -46,8 +46,8 @@ def main():
                 osu_username = osu.get_username_from_user_id(user["osu_id"])
                 if osu_username.lower() != nick.lower():
                     print(
-                        f"Username mismatch for discord_id={discord_id}:"
-                        f" osu={osu_username!r}, nick={nick!r} — setting match=False"
+                        f"Username mismatch for {discord_id=}:"
+                        f" {osu_username=}, {nick=} — setting match=False"
                     )
                     user["match"] = False
             except Exception:
