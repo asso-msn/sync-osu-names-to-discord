@@ -23,10 +23,13 @@ def main():
     discord = DiscordAPI(config.DISCORD_BOT_TOKEN)
     data = load_save(config.DB_PATH)
 
+    seen_ids = set()
+
     for member in discord.iter_server_members(config.DISCORD_SERVER_ID):
         discord_id = member["user"]["id"]
         nick = member.get("nick") or member["user"]["username"]
 
+        seen_ids.add(discord_id)
         user = data.get(discord_id)
 
         if user is None:
@@ -52,6 +55,11 @@ def main():
                 user["match"] = False
         except Exception:
             traceback.print_exc()
+
+    for discord_id in list(data.keys()):
+        if discord_id not in seen_ids:
+            print(f"Removing {discord_id=} — no longer in server")
+            del data[discord_id]
 
     save_data(config.DB_PATH, data)
 
