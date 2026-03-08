@@ -33,6 +33,23 @@ python main.py --help
 The script was only tested with Python 3.14 and on Linux. Please file issues if
 you need support for your environment.
 
+To run the script via Docker or any container runtime, you can use the ghcr or
+DockerHub builds:
+
+```bash
+docker run \
+  -e DISCORD_SERVER_ID=your_server_id \
+  -e DISCORD_BOT_TOKEN=your_bot_token \
+  -e DISCORD_WEBHOOK=https://discord.com/api/webhooks/... \
+  -e LOOP_MINUTES=30 \
+  -v ./data:/data \
+  ghcr.io/asso-msn/sync-osu-names-to-discord:latest
+# or
+docker run \
+  ...
+  docker.io/assomsn/sync-osu-names-to-discord:latest
+```
+
 The script requires some variables, you can set them as environment variable, or
 in a `.env` file in the current directory, or as CLI arguments
 (`DISCORD_SERVER_ID` becomes `--discord-server-id`).
