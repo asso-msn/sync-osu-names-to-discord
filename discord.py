@@ -49,6 +49,10 @@ class API:
         url = f"/guilds/{server_id}/members/{user_id}"
         self.call(url, method="PATCH", reason=reason, json={"nick": nick})
 
+    def send_webhook_message(self, webhook_url: str, content: str):
+        response = self._client.post(webhook_url, json={"content": content})
+        response.raise_for_status()
+
 
 if __name__ == "__main__":
     from config import config

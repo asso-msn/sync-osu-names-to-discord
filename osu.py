@@ -1,15 +1,20 @@
 import httpx
 
 
-def get_user_id_from_username(username: str) -> int:
+def get_user_id_from_username(username: str) -> int | None:
     url = f"http://osu.ppy.sh/users/{username}"
     response = httpx.head(url)
     if "Location" not in response.headers:
-        raise ValueError(
+        print(
             f'Excpected a redirect to an user page when looking up "{url}", but'
             f" got {response}"
         )
-    return int(response.headers["Location"].split("/")[-1])
+        return None
+
+    try:
+        return int(response.headers["Location"].split("/")[-1])
+    except ValueError:
+        return None
 
 
 def get_username_from_user_id(user_id: int) -> str:
