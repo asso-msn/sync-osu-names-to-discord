@@ -41,10 +41,21 @@ jobs:
           repository: ${{ env.DOCKER_REPOSITORY }}
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build local image for smoke test
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Containerfile
+          load: true
+          tags: smoke-test
+
+      - name: Smoke test
+        run: docker run --rm smoke-test --help
 
       - name: Build and push
         uses: docker/build-push-action@v7
