@@ -53,6 +53,7 @@ jobs:
           file: Containerfile
           load: true
           tags: smoke-test
+          cache-to: type=gha,mode=max
 
       - name: Smoke test
         run: docker run --rm smoke-test --help
@@ -64,6 +65,7 @@ jobs:
           file: Containerfile
           platforms: linux/amd64,linux/arm64
           push: true
+          cache-from: type=gha
           tags: |
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:${{ github.sha }}
