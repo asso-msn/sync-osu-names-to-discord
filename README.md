@@ -54,7 +54,7 @@ The script requires some variables, you can set them as environment variable, or
 in a `.env` file in the current directory, or as CLI arguments
 (`DISCORD_SERVER_ID` becomes `--discord-server-id`).
 
-⚠️: Avoid passing secret (such as bot tokens) as CLI arguments, they can leak in
+⚠️ Avoid passing secret (such as bot tokens) as CLI arguments, they can leak in
 your shell history or be stolen by listing all running processes.
 
 <!-- MARK: Config vars -->
